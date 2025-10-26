@@ -9,7 +9,6 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import TranslatePage from "./pages/TranslatePage";
 import PoseSearchPage from "./pages/PoseSearchPage";
-import DashboardPage from "./pages/DashboardPage";
 import SignSchoolPage from "./pages/SignSchoolPage";
 import LessonDetailPage from "./pages/LessonDetailPage";
 import { Navbar } from "@/components/site/Navbar";
@@ -31,7 +30,6 @@ const App = () => (
           <Route path="/translate" element={<TranslatePage />} />
           <Route path="/sign-school" element={<SignSchoolPage />} />
           <Route path="/poses" element={<PoseSearchPage />} />
-          <Route path="/admin" element={<DashboardPage />} />
           <Route path="/lesson/:lessonId" element={<LessonDetailPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFoundPage />} />

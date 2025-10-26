@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
-import { HighContrastToggle } from "./HighContrastToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const Navbar = () => {
@@ -20,12 +19,10 @@ export const Navbar = () => {
           <NavLink to="/translate" className={linkCls} end>Translate</NavLink>
           <NavLink to="/sign-school" className={linkCls} end>Sign School</NavLink>
           <NavLink to="/poses" className={linkCls} end>Poses</NavLink>
-          <NavLink to="/admin" className={linkCls} end>Dashboard</NavLink>
         </div>
 
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          <HighContrastToggle />
           <ThemeToggle />
           <NavLink to="/login"><Button variant="ghost" size="sm">Log in</Button></NavLink>
           <NavLink to="/signup"><Button variant="hero" size="sm">Sign up</Button></NavLink>
