@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System: All colors are HSL values. Gradients, shadows, and motion live here. */
+
+@layer base {
+  :root {
+    /* Base surface & text */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 5%;
+
+    /* Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 5%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 5%;
+
+    /* Brand */
+    --primary: 252 85% 53%;           /* Indigo/Violet */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 220 14% 96%;          /* Subtle slate */
+    --secondary-foreground: 222.2 47% 11%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 198 94% 60%;             /* Cyan accent */
+    --accent-foreground: 222.2 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Controls */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 252 85% 53%;
+
+    /* Radius */
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+
+    /* Premium tokens */
+    --gradient-primary-start: 252 85% 53%;
+    --gradient-primary-end: 198 94% 60%;
+    --gradient-subtle-start: 0 0% 100%;
+    --gradient-subtle-end: 210 40% 98%;
+
+    --shadow-elegant: 0 12px 32px -12px hsl(var(--primary) / 0.25);
+    --shadow-glow: 0 0 48px hsl(var(--accent) / 0.35);
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 6%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 6%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 198 94% 60%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217 33% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17.5%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 252 85% 53%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17.5%;
+    --input: 217 33% 17.5%;
+    --ring: 198 94% 60%;
+
+    --gradient-primary-start: 198 94% 60%;
+    --gradient-primary-end: 252 85% 53%;
+    --gradient-subtle-start: 222.2 84% 6%;
+    --gradient-subtle-end: 222.2 84% 4.9%;
+  }
+
+  /* High-contrast mode (toggles with .hc on html) */
+  .hc {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 3%;
+    --primary: 252 100% 40%;
+    --secondary: 220 8% 94%;
+    --muted-foreground: 215 25% 35%;
+    --border: 220 16% 75%;
+    --ring: 252 100% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Utilities for micro-interactions */
+@layer utilities {
+  .story-link::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 300ms ease;
+  }
+  .story-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+  .hover-scale { transition: transform 200ms ease; }
+  .hover-scale:hover { transform: translateZ(0) scale(1.03); }
+}
