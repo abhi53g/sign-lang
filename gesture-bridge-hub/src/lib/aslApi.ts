@@ -137,7 +137,8 @@ export function videoFrameToBase64(
   x = 0,
   y = 0,
   width?: number,
-  height?: number
+  height?: number,
+  options?: { mirror?: boolean; format?: 'jpeg' | 'png'; quality?: number }
 ): string {
   const canvas = document.createElement('canvas');
   const sourceWidth = 'videoWidth' in source ? source.videoWidth : source.width;
@@ -151,6 +152,13 @@ export function videoFrameToBase64(
     throw new Error('Could not get canvas context');
   }
 
+  const mirror = options?.mirror ?? false;
+  if (mirror) {
+    ctx.save();
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
+
   if ('videoWidth' in source) {
     // It's a video element
     ctx.drawImage(source, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
@@ -159,6 +167,12 @@ export function videoFrameToBase64(
     ctx.drawImage(source, x, y, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
   }
 
+  if (mirror) {
+    ctx.restore();
+  }
+
   // Return base64 without the data:image prefix (API expects clean base64)
-  return canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+  const format = options?.format === 'png' ? 'image/png' : 'image/jpeg';
+  const quality = options?.quality ?? 0.95;
+  return canvas.toDataURL(format, quality).split(',')[1];
 }

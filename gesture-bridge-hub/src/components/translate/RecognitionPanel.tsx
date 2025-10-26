@@ -13,7 +13,8 @@ export const RecognitionPanel = ({ currentSign = '', confidence = 0 }: Recogniti
   const [lastSign, setLastSign] = useState("");
   const [holdTime, setHoldTime] = useState(0);
   const HOLD_THRESHOLD = 1.5; // seconds
-  const CONF_THRESHOLD = 0.75;
+  const CONF_THRESHOLD = 0.7;
+  const HIGH_CONF_THRESHOLD = 0.9; // fast-path appending
   const appendedLockRef = useRef<string | null>(null); // prevent repeated appends without a break
 
   // Handle sign accumulation with stability and lock to avoid jitter
@@ -25,6 +26,27 @@ export const RecognitionPanel = ({ currentSign = '', confidence = 0 }: Recogniti
       setHoldTime(0);
       setLastSign('');
       appendedLockRef.current = null;
+      return;
+    }
+
+    // Fast-path: very high confidence => append immediately once per hold
+    if (conf >= HIGH_CONF_THRESHOLD) {
+      if (appendedLockRef.current !== sign) {
+        if (sign === 'space') {
+          setText(prevText => prevText + ' ');
+          toast({ title: "Added Space" });
+        } else if (sign === 'del') {
+          setText(prevText => prevText.slice(0, -1));
+          toast({ title: "Deleted Character" });
+        } else {
+          setText(prevText => prevText + sign);
+          toast({ title: `Added: ${sign}` });
+        }
+        appendedLockRef.current = sign;
+      }
+      // Keep lastSign to the current sign and clamp hold
+      setLastSign(sign);
+      setHoldTime(HOLD_THRESHOLD);
       return;
     }
 
@@ -84,6 +106,26 @@ export const RecognitionPanel = ({ currentSign = '', confidence = 0 }: Recogniti
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-medium text-sm text-muted-foreground">Recognized Text</h3>
           <div className="flex gap-2">
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => {
+                setText(prev => prev + ' ');
+                toast({ title: "Added Space" });
+              }}
+            >
+              Space
+            </Button>
+            <Button 
+              size="sm" 
+              variant="outline"
+              onClick={() => {
+                setText(prev => prev.slice(0, -1));
+                toast({ title: "Deleted Character" });
+              }}
+            >
+              Backspace
+            </Button>
             <Button 
               size="sm" 
               variant="ghost" 
